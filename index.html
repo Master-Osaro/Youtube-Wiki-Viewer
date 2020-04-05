@@ -59,7 +59,7 @@
             //
             let searchTerm = document.querySelector('input[name="searchTerm"]').value
             let url = 'https://en.wikipedia.org/w/api.php?format=json&action=opensearch&origin=*&search=' + searchTerm;
-            let url1 = 'https://www.googleapis.com/youtube/v3/search/?part=snippet&key=**KEY**=' + searchTerm + '&maxResults=4';
+            let url1 = 'https://www.googleapis.com/youtube/v3/search/?part=snippet&key=*KEY*=' + searchTerm + '&maxResults=4';
             let outputWiki = document.querySelector('#outputWiki');
             let outputYoutube = document.querySelector('#outputYoutube');
             outputWiki.innerHTML = "<h2>Search Term " + searchTerm + "<h2>";
