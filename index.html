@@ -4,6 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AJAX API's</title>
+    <style>
+        .dataOutput {
+            padding: 10px;
+            border: 1px solid #eee;
+        }
+        
+        .wrap {
+            width: 100%;
+            position: relative;
+        }
+        
+        .panel {
+            width: 25%;
+            display: inline-block;
+            height: 120px;
+            overflow: hidden;
+        }
+        
+        .panel img {
+            width: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        
+        .panel .content {
+            width: 100%;
+            font-size: 0.7em;
+            background: rgb(0, 0, 0);
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            position: absolute;
+            padding: 10px;
+            left: 0;
+            z-index: 100;
+        }
+    </style>
 </head>
 <body>
     <h1>Youtube-Wiki Info</h1>
@@ -26,15 +63,16 @@
             outputWiki.innerHTML = "<h2>Search Term " + searchTerm + "<h2>";
             outputYoutube.innerHTML = "<h2>Videos of " + searchTerm + "<h2>";
             ajaxJS(url, function(response) {
-                console.log(response);
-                console.log("********************************************************************");
+                // console.log(response); FOR_DEBUG
+                // console.log("********************************************************************");
                 for (let x in response) {
                         let varType_value = (typeof response[x]) == 'string'? response[x]:response[x][0];
-                        console.log(varType_value);
+                        //console.log(varType_value); FOR_DEBUG
                         outputWiki.innerHTML+= "<p class='dataOutput'>"+varType_value+"</p>"
                 }
                  
-            })
+            });
+            //
         } 
 
         function ajaxJS(url, callback) {
