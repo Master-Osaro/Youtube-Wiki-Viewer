@@ -7,8 +7,10 @@
 </head>
 <body>
     <h1>Youtube-Wiki Info</h1>
-    <input type="button" id="search" value="search">
-    <div id="output"></div>
+    <input type="text" name="searchTerm" value="JavaScript">
+    <input type="button" id="search" value="Search">
+    <div id="outputWiki"></div>
+    <div id="outputYoutube"></div>
 
     <script>
 
@@ -17,16 +19,28 @@
         }
 
         function showResults() {
-            let url = "https://randomuser.me/api/";
+            var searchTerm = document.querySelector('input[name="searchTerm"]').value
+            var url = 'https://en.wikipedia.org/w/api.php?format=json&action=opensearch&origin=*&search=' + searchTerm;
+            var outputWiki = document.querySelector('#outputWiki');
+            var outputYoutube = document.querySelector('#outputYoutube');
+            outputWiki.innerHTML = "<h2>Search Term " + searchTerm + "<h2>";
+            outputYoutube.innerHTML = "<h2>Videos of " + searchTerm + "<h2>";
             ajaxJS(url, function(response) {
                 console.log(response);
+                console.log("********************************************************************");
+                for (let x in response) {
+                        let varType_value = (typeof response[x]) == 'string'? response[x]:response[x][0];
+                        console.log(varType_value);
+                        outputWiki.innerHTML+= "<p class='dataOutput'>"+varType_value+"</p>"
+                }
+                 
             })
         } 
 
         function ajaxJS(url, callback) {
             let xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
-                console.log(xhr);
+                //console.log(xhr);
                 if (xhr.readyState==4 && xhr.status==200) {
                     callback(JSON.parse(xhr.responseText));
                 }
