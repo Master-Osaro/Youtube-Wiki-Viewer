@@ -56,15 +56,18 @@
         }
 
         function showResults() {
-            var searchTerm = document.querySelector('input[name="searchTerm"]').value
-            var url = 'https://en.wikipedia.org/w/api.php?format=json&action=opensearch&origin=*&search=' + searchTerm;
-            var outputWiki = document.querySelector('#outputWiki');
-            var outputYoutube = document.querySelector('#outputYoutube');
+            //
+            let searchTerm = document.querySelector('input[name="searchTerm"]').value
+            let url = 'https://en.wikipedia.org/w/api.php?format=json&action=opensearch&origin=*&search=' + searchTerm;
+            let url1 = 'https://www.googleapis.com/youtube/v3/search/?part=snippet&key=**KEY**=' + searchTerm + '&maxResults=4';
+            let outputWiki = document.querySelector('#outputWiki');
+            let outputYoutube = document.querySelector('#outputYoutube');
             outputWiki.innerHTML = "<h2>Search Term " + searchTerm + "<h2>";
             outputYoutube.innerHTML = "<h2>Videos of " + searchTerm + "<h2>";
+            
+            //Wikipedia
             ajaxJS(url, function(response) {
                 // console.log(response); FOR_DEBUG
-                // console.log("********************************************************************");
                 for (let x in response) {
                         let varType_value = (typeof response[x]) == 'string'? response[x]:response[x][0];
                         //console.log(varType_value); FOR_DEBUG
@@ -72,9 +75,26 @@
                 }
                  
             });
-            //
+
+            //Youtube
+            ajaxJS(url1, function(data) {
+                //console.log(data.items); //FOR_DEBUG
+                for (let x in data.items) {
+                        console.log(data.items[x]["snippet"])
+                        let title = data.items[x]["snippet"]["title"];
+                        let description = data.items[x]["snippet"]["description"];
+                        let thumbnail = data.items[x]["snippet"]["thumbnails"]["default"]["url"];
+                        let videoID = data.items[x].id.videoId;
+                        outputYoutube.innerHTML += '<div class="panel"><div class="wrap"><div class="content">' + title + '</div><a href="https://youtu.be/' + videoID + '" target="_blank"><img src="' + thumbnail + '" alt="' + title + '"></a></div></div>'
+                        console.log(title);
+                        console.log(description);
+                        console.log(thumbnail);
+                }
+                 
+            });
         } 
 
+        //fuction to make get request to Youtube and Wiki endpoint urls
         function ajaxJS(url, callback) {
             let xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
